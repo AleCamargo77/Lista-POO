@@ -10,15 +10,60 @@ class Product {
     if (this.validInputs(product)) {
       this.addProducts(product);
     }
+    this.listTable();
+    this.removeProduct();
+  }
 
-    console.log(this.arrayProducts);
+  listTable() {
+    let tbody = document.getElementById("tbody");
+    tbody.innerText = "";
+    for (let i = 0; i < this.arrayProducts.length; i++) {
+      let tr = tbody.insertRow();
+
+      let td_id = tr.insertCell();
+      let td_product = tr.insertCell();
+      let td_price = tr.insertCell();
+      let td_actions = tr.insertCell();
+
+      td_id.innerText = this.arrayProducts[i].id;
+      td_product.innerText = this.arrayProducts[i].nameProduct;
+      td_price.innerText = this.arrayProducts[i].priceProduct;
+
+      td_id.classList.add("center");
+
+      let imgEdit = document.createElement("img");
+      imgEdit.src = "./assets/images/editar-alt.svg";
+
+      let imgDelete = document.createElement("img");
+      imgDelete.src = "./assets/images/remover.png";
+      imgDelete.setAttribute(
+        "onclick",
+        "product.delete(" + this.arrayProducts[i].id + ")"
+      );
+
+      td_actions.appendChild(imgEdit);
+      td_actions.appendChild(imgDelete);
+    }
   }
 
   addProducts(product) {
     this.arrayProducts.push(product);
     this.id++;
   }
-  removeProduct() {}
+  removeProduct() {
+    document.getElementById("nameProduct").value = "";
+    document.getElementById("priceProduct").value = "";
+  }
+
+  delete(id) {
+    let tbody = document.getElementById("tbody");
+    for (let i = 0; i < this.arrayProducts.length; i++) {
+      if (this.arrayProducts[i].id === id) {
+        this.arrayProducts.splice(i, 1);
+        tbody.deleteRow(i);
+      }
+    }
+  }
 
   readData() {
     let product = {};
