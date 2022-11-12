@@ -2,13 +2,18 @@ class Product {
   constructor() {
     this.id = 1;
     this.arrayProducts = [];
+    this.editId = null;
   }
 
   saveProduct() {
     let product = this.readData();
 
     if (this.validInputs(product)) {
-      this.addProducts(product);
+      if (this.editId == null) {
+        this.addProducts(product);
+      } else {
+        this.updateProduct(this.editId);
+      }
     }
     this.listTable();
     this.removeProduct();
@@ -33,6 +38,10 @@ class Product {
 
       let imgEdit = document.createElement("img");
       imgEdit.src = "./assets/images/editar-alt.svg";
+      imgEdit.setAttribute(
+        "onclick",
+        "product.editProduct(" + JSON.stringify(this.arrayProducts[i]) + ")"
+      );
 
       let imgDelete = document.createElement("img");
       imgDelete.src = "./assets/images/remover.png";
@@ -50,17 +59,32 @@ class Product {
     this.arrayProducts.push(product);
     this.id++;
   }
+
+  updateProduct(id) {
+    alert(id);
+  }
+
   removeProduct() {
     document.getElementById("nameProduct").value = "";
     document.getElementById("priceProduct").value = "";
   }
 
+  editProduct(data) {
+    this.editId = data.id;
+    document.getElementById("nameProduct").value = data.nameProduct;
+    document.getElementById("priceProduct").value = data.priceProduct;
+    document.getElementById("attBtn").innerText = "Atualizar";
+  }
+
   delete(id) {
-    let tbody = document.getElementById("tbody");
-    for (let i = 0; i < this.arrayProducts.length; i++) {
-      if (this.arrayProducts[i].id === id) {
-        this.arrayProducts.splice(i, 1);
-        tbody.deleteRow(i);
+    if (confirm(`Deseja remover o item ${id}?`)) {
+      let tbody = document.getElementById("tbody");
+
+      for (let i = 0; i < this.arrayProducts.length; i++) {
+        if (this.arrayProducts[i].id === id) {
+          this.arrayProducts.splice(i, 1);
+          tbody.deleteRow(i);
+        }
       }
     }
   }
