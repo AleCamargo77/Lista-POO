@@ -12,7 +12,7 @@ class Product {
       if (this.editId == null) {
         this.addProducts(product);
       } else {
-        this.updateProduct(this.editId);
+        this.updateProduct(this.editId, product);
       }
     }
     this.listTable();
@@ -56,17 +56,26 @@ class Product {
   }
 
   addProducts(product) {
+    // product.priceProduct = parseFloat(product.priceProduct);
     this.arrayProducts.push(product);
     this.id++;
   }
 
-  updateProduct(id) {
-    alert(id);
+  updateProduct(id, product) {
+    for (let i = 0; i < this.arrayProducts.length; i++) {
+      if (this.arrayProducts[i].id === id) {
+        this.arrayProducts[i].nameProduct = product.nameProduct;
+        this.arrayProducts[i].priceProduct = product.priceProduct;
+      }
+    }
   }
 
   removeProduct() {
     document.getElementById("nameProduct").value = "";
     document.getElementById("priceProduct").value = "";
+
+    document.getElementById("attBtn").innerText = "Salvar";
+    this.editId = null;
   }
 
   editProduct(data) {
