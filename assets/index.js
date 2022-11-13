@@ -43,12 +43,12 @@ class Product {
         "product.editProduct(" + JSON.stringify(this.arrayProducts[i]) + ")"
       );
 
+      let id = this.arrayProducts[i].id;
+      let prod = this.arrayProducts[i].nameProduct;
+
       let imgDelete = document.createElement("img");
       imgDelete.src = "./assets/images/remover.png";
-      imgDelete.setAttribute(
-        "onclick",
-        "product.delete(" + this.arrayProducts[i].id + ")"
-      );
+      imgDelete.setAttribute("onclick", "product.delete(" + id + ")");
 
       td_actions.appendChild(imgEdit);
       td_actions.appendChild(imgDelete);
@@ -86,7 +86,7 @@ class Product {
   }
 
   delete(id) {
-    if (confirm(`Deseja remover o item ${id}?`)) {
+    if (confirm(`Deseja remover o item ID = ${id}`)) {
       let tbody = document.getElementById("tbody");
 
       for (let i = 0; i < this.arrayProducts.length; i++) {
